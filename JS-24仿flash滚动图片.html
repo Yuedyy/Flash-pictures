@@ -33,7 +33,7 @@
 //选出小图片的li
 		var oDivSmall=getByClass(oDiv,'small_pic')[0];
 		var oUlSmall = oDivSmall.getElementsByTagName('ul')[0];
-		var aLiSmall = oDiv.getElementsByTagName('li');
+		var aLiSmall = oDivSmall.getElementsByTagName('li');
 
 //选出大图的li
 		var oUlBig = getByClass(oDiv,'big_pic')[0];
@@ -108,7 +108,7 @@
 				}
 				else if (now==aLiSmall.length-1)
 				{
-					tartMove(oUlSmall,'left',-(now-2)*aLiSmall[0].offsetWidth)
+					startMove(oUlSmall,'left',-(now-2)*aLiSmall[0].offsetWidth)
 				}
 				else
 				{
@@ -137,14 +137,14 @@
 
 		//自动播放
 		var timer = setInterval(oBtnNext.onclick,1000);
-		oDiv.onmouseover=function()
-		{
-			clearInterval(timer);
-		}
-		oDiv.onmouseovut=function()
-		{
-			 timer=setInterval(oBtnNext.onclick,1000);
-		}
+		oDiv.onmouseover=function ()
+	{
+		clearInterval(timer);
+	};
+	oDiv.onmouseout=function ()
+	{
+		timer=setInterval(oBtnNext.onclick, 1000);
+	};
 	}
 	</script>
 </head>
