@@ -65,14 +65,32 @@
 		for(var i=0; i<aLiSmall.length; i++)
 		{
 			aLiSmall[i].index=i;
+			//对小图进行点击
 			aLiSmall[i].onclick=function()
 			{
 				if (this.index==now)return;
 				now=this.index;
-				aLiBig[this.index].style.zIndex=nowZIndex++;
+				aLiBig[this.index].style.zIndex=nowZIndex++;//TMD哪里错了
+
+				//点击之后的小图透明度变为100的设置，先把所有的小图透明图设为60，在针对当前的图片设为100
+				for(var j=0; j<aLiSmall.length; j++)
+				{
+					startMove(aLiSmall[j],'opacity',60);
+				}
+				startMove(this,'opacity',100);
+
 				aLiBig[this.index].style.height=0;
 				startMove(aLiBig[this.index],'height',320);
-			}
+			};
+			//对小图移入移出的透明度设置
+			aLiSmall[i].onmouseover=function()
+			{
+				startMove(this,'opacity',100);
+			};
+			aLiSmall[i].onmouseout = function()
+			{
+				startMove(this,'opacity',60);
+			};
 		}
 	}
 	</script>
