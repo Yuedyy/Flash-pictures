@@ -32,6 +32,7 @@
 
 //选出小图片的li
 		var oDivSmall=getByClass(oDiv,'small_pic')[0];
+		var oUlSmall = oDivSmall.getElementsByTagName('ul')[0];
 		var aLiSmall = oDiv.getElementsByTagName('li');
 
 //选出大图的li
@@ -42,6 +43,9 @@
 		var nowZIndex=2;
 
 		var now=0;
+
+		oUlSmall.style.width=aLiSmall.length*aLiSmall[0].offsetWidth+'px';
+
 //左右按钮
 		oBtnPrev.onmouseover=oMarkLeft.onmouseover=function ()
 		{
@@ -70,17 +74,7 @@
 			{
 				if (this.index==now)return;
 				now=this.index;
-				aLiBig[this.index].style.zIndex=nowZIndex++;//TMD哪里错了
-
-				//点击之后的小图透明度变为100的设置，先把所有的小图透明图设为60，在针对当前的图片设为100
-				for(var j=0; j<aLiSmall.length; j++)
-				{
-					startMove(aLiSmall[j],'opacity',60);
-				}
-				startMove(this,'opacity',100);
-
-				aLiBig[this.index].style.height=0;
-				startMove(aLiBig[this.index],'height',320);
+				tab();
 			};
 			//对小图移入移出的透明度设置
 			aLiSmall[i].onmouseover=function()
@@ -89,8 +83,67 @@
 			};
 			aLiSmall[i].onmouseout = function()
 			{
+				if(this.index!=now)
 				startMove(this,'opacity',60);
 			};
+		}
+
+		//另外封装函数，以实现大图的z-index切换和小图的透明度变化
+		function tab () 
+		{
+			aLiBig[now].style.zIndex=nowZIndex++;//TMD哪里错了
+
+				//点击之后的小图透明度变为100的设置，先把所有的小图透明图设为60，在针对当前的图片设为100
+			for(var j=0; j<aLiSmall.length; j++)
+				{
+					startMove(aLiSmall[j],'opacity',60);
+				}
+				startMove(aLiSmall[now],'opacity',100);
+
+				aLiBig[now].style.height=0;
+				startMove(aLiBig[now],'height',320);
+				if(now==0)
+				{
+					startMove(oUlSmall,'left',0);
+				}
+				else if (now==aLiSmall.length-1)
+				{
+					tartMove(oUlSmall,'left',-(now-2)*aLiSmall[0].offsetWidth)
+				}
+				else
+				{
+					startMove(oUlSmall,'left',-(now-1)*aLiSmall[0].offsetWidth)
+				}
+		}
+//左右按钮功能设置
+		oBtnPrev.onclick = function()
+		{
+			now--;
+			if(now==-1)
+			{
+				now=aLiSmall.length-1;
+			}
+			tab();
+		};
+		oBtnNext.onclick = function()
+		{
+			now++;
+			if(now==aLiSmall.length)
+			{
+				now=0;
+			}
+			tab();
+		};
+
+		//自动播放
+		var timer = setInterval(oBtnNext.onclick,1000);
+		oDiv.onmouseover=function()
+		{
+			clearInterval(timer);
+		}
+		oDiv.onmouseovut=function()
+		{
+			 timer=setInterval(oBtnNext.onclick,1000);
 		}
 	}
 	</script>
