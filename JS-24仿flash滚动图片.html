@@ -29,24 +29,51 @@
 		var oBtnNext=getByClass(oDiv,'next')[0];
 		var oMarkLeft=getByClass(oDiv,'mark_left')[0];
 		var oMarkRight=getByClass(oDiv,'mark_right')[0];
+
+//选出小图片的li
+		var oDivSmall=getByClass(oDiv,'small_pic')[0];
+		var aLiSmall = oDiv.getElementsByTagName('li');
+
+//选出大图的li
+		var oUlBig = getByClass(oDiv,'big_pic')[0];
+		var aLiBig = oUlBig.getElementsByTagName('li');
+
+//设置z-indez;
+		var nowZIndex=2;
+
+		var now=0;
 //左右按钮
-	oBtnPrev.onmouseover=oMarkLeft.onmouseover=function ()
-	{
-		startMove(oBtnPrev, 'opacity', 100);
-	};
-	oBtnPrev.onmouseout=oMarkLeft.onmouseout=function ()
-	{
-		startMove(oBtnPrev, 'opacity', 0);
-	};
-	oBtnNext.onmouseover=oMarkRight.onmouseover=function ()
-	{
-		startMove(oBtnNext, 'opacity', 100);
-	};
-	oBtnNext.onmouseout=oMarkRight.onmouseout=function ()
-	{
-		startMove(oBtnNext, 'opacity', 0);
-	};
-	
+		oBtnPrev.onmouseover=oMarkLeft.onmouseover=function ()
+		{
+			startMove(oBtnPrev, 'opacity', 100);
+		};
+		oBtnPrev.onmouseout=oMarkLeft.onmouseout=function ()
+		{
+			startMove(oBtnPrev, 'opacity', 0);
+		};
+		oBtnNext.onmouseover=oMarkRight.onmouseover=function ()
+		{
+			startMove(oBtnNext, 'opacity', 100);
+		};
+		oBtnNext.onmouseout=oMarkRight.onmouseout=function ()
+		{
+			startMove(oBtnNext, 'opacity', 0);
+		};
+		
+//大图切换
+		//先给小图加点击，然后设置大图的层级以显示
+		for(var i=0; i<aLiSmall.length; i++)
+		{
+			aLiSmall[i].index=i;
+			aLiSmall[i].onclick=function()
+			{
+				if (this.index==now)return;
+				now=this.index;
+				aLiBig[this.index].style.zIndex=nowZIndex++;
+				aLiBig[this.index].style.height=0;
+				startMove(aLiBig[this.index],'height',320);
+			}
+		}
 	}
 	</script>
 </head>
